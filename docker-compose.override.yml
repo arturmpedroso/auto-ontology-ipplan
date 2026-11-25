@@ -1,0 +1,14 @@
+# Local-only override (not part of the upstream repo).
+#
+# The IPPLAN stack publishes its Postgres on the Docker host's 5432, so this
+# stack's own Postgres is published on 5433 instead (POSTGRES_PORT in .env).
+# Both the backend (answering) and the ingestion service need to reach the
+# IPPLAN database through that host port, which requires an explicit
+# host-gateway entry on Linux.
+services:
+  auto-ontology:
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  ingestion-service:
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
